@@ -1,97 +1,76 @@
-@import url("https://fonts.googleapis.com/css?family=Raleway:400");
+$anime-time: 8s;
 
-* {
-	box-sizing: border-box;
+$box-size: 200px;
+$clip-distance: .05;
+$clip-size: $box-size * (1 + $clip-distance * 2);
+$path-width: 2px;
+
+$main-color: #69ca62;
+
+$codepen-logo-path: url('//blog.codepen.io/wp-content/uploads/2012/06/Button-White-Large.png');
+
+%full-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 90deg;
-  inherits: true;
+.bb {
+  @extend %full-fill;
+  width: $box-size;
+  height: $box-size;
+  margin: auto;
+  background: $codepen-logo-path no-repeat 50% / 70% rgba(#000, .1);
+  color: $main-color;
+  box-shadow: inset 0 0 0 1px rgba($main-color, .5);
+
+  &::before,
+  &::after {
+    @extend %full-fill;
+    content: '';
+    z-index: -1;
+    margin: -1 * $clip-distance * 100%;
+    box-shadow: inset 0 0 0 $path-width; 
+    animation: clipMe $anime-time linear infinite;
+  }
+
+  &::before {
+    animation-delay: $anime-time * -.5;
+  }
+
+  // for debug
+  &:hover {
+    &::after,
+    &::before {
+      background-color: rgba(#f00, .3);
+    }
+  }
+
 }
 
-@property --gradX {
-  syntax: '<percentage>';
-  initial-value: 50%;
-  inherits: true;
+@keyframes clipMe {
+  0%, 100% {clip: rect(0px, $clip-size, $path-width, 0px); }
+  25% {clip: rect(0px, $path-width, $clip-size, 0px); }
+  50% {clip: rect($clip-size - $path-width, $clip-size, $clip-size, 0px); }
+  75% {clip: rect(0px, $clip-size, $clip-size, $clip-size - $path-width); }
 }
 
-@property --gradY {
-  syntax: '<percentage>';
-  initial-value: 0%;
-  inherits: true;
+/////
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-	font-family: Raleway, sans-serif;
-	text-align: center;
-	margin: 0;
-	padding: 1rem;
-	background-color: rgba(10, 12, 18, 1);
-	color: white;
-	min-height: 100vh;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
+  position: relative;
+  background-color: #0f222b;
 }
 
-p {
-	margin: 0;
-}
-
-:root {
-	--d: 2500ms;
-	--angle: 90deg;
-	--gradX: 100%;
-	--gradY: 50%;
-	--c1: rgba(168, 239, 255, 1);
-	--c2: rgba(168, 239, 255, 0.1);
-}
-
-.wrapper {
-	min-width: min(40rem, 100%);
-}
-
-.box {
-	font-size: 3vw;
-	margin: max(1rem, 3vw);
-	border: 0.35rem solid;
-	padding: 3vw;
-	border-image: conic-gradient(from var(--angle), var(--c2), var(--c1) 0.1turn, var(--c1) 0.15turn, var(--c2) 0.25turn) 30;
-	animation: borderRotate var(--d) linear infinite forwards;
-}
-
-.box:nth-child(2) {
-	border-image: radial-gradient(ellipse at var(--gradX) var(--gradY), var(--c1), var(--c1) 10%, var(--c2) 40%) 30;
-	animation: borderRadial var(--d) linear infinite forwards;
-}
-
-@keyframes borderRotate {
-	100% {
-		--angle: 420deg;
-	}
-}
-
-@keyframes borderRadial {
-	20% {
-		--gradX: 100%;
-		--gradY: 50%;
-	}
-	40% {
-		--gradX: 100%;
-		--gradY: 100%;
-	}
-	60% {
-		--gradX: 50%;
-		--gradY: 100%;
-	}
-	80% {
-		--gradX: 0%;
-		--gradY: 50%;
-	}
-	100% {
-		--gradX: 50%;
-		--gradY: 0%;
-	}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
