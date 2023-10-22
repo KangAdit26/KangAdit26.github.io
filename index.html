@@ -23,27 +23,26 @@
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
 	<script>
-        function validateForm()
-        {
-            var nama = document.getElementById("nama");
-            var msg = document.getElementById("msg");
-			var email = document.getElementById("email");
-			var subject = document.getElementById("subject");
-			var message = document.getElementById("message");
-	
+		function sendwhatsapp(){
+					var phonenumber = "+6282113310592";
+					var name = document.getElementById("nama").value;
+					var emails = document.getElementById("email").value;
+					var subjects = document.getElementById("subject").value;
+					var messages = document.getElementById("message").value;
 
-            if(nama.value == "") {
+			if(nama.value == "") {
                 nama.focus();
                 nama.placeholder ="Contoh : Kang Adit"
                 alert("Nama harus diisi!!");
                 return false;
             }
-
+			
 			if(email.value == "") {
                 email.focus();
                 email.placeholder ="Contoh : kangadit@gmail.com"
                 alert("email harus diisi!!");
                 return false;
+
             }
 
             if(isNaN(nama.value) == false) {
@@ -64,7 +63,15 @@
                 alert("Message harus diisi!!");
                 return false;
             }
-        }
+
+					var url = "https://wa.me/" + phonenumber + "?text=" + "*Name  :* " + name + "%0a"
+					+ "*Email  :* " + emails + "%0a"
+					+ "*Subject :* " + subjects + "%0a"
+					+ "*Message  :* " + messages + "%0a%0a";
+
+					window.open(url, '_blank').focus();
+		
+				}
     </script>
 	
   </head>
@@ -217,7 +224,7 @@
 			<div class="col-md-7 heading-section text-center ftco-animate">
 			  <h1 class="big big-2">Hobby</h1>
 			  <h2 class="mb-4">Hobby</h2>
-			  <p>Berikut ini merupakan project-project yang pernah saya kerjakan</p>
+			  <p>Berikut merupakan hobby yang sering saya lakukan diwaktu luang</p>
           </div>
 		</div>
         <div class="row d-flex">
@@ -458,7 +465,7 @@
 
         <div class="row no-gutters block-9">
           <div class="col-md-6 order-md-last d-flex" >
-            <form action="#" class="bg-light p-4 p-md-5 contact-form" method="get" onsubmit="return validateForm();">
+            <form action="" class="bg-light p-4 p-md-5 contact-form" method="get" onsubmit="return sendwhatsapp();">
               <div class="form-group ju">
                 <input type="text" class="form-control" placeholder="Your Name" id="nama"><div id="msg" class="text-danger"></div>
               </div>
@@ -472,7 +479,7 @@
                 <textarea name="" id="message" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
               </div>
               <div class="form-group">
-                <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5" >
+				<input type="submit" value="Send Message" class="btn btn-primary py-3 px-5" id="sendmessage">
               </div>
             </form>
           
